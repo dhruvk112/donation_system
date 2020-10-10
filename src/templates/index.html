@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="text-center mt-5">
+            <img src="https://www.svgrepo.com/show/2435/make-a-donation.svg" style="height:200px" alt="Donate">
+        </div>
+        <div class="col-6 mx-auto">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-control" id="name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control" id="email">
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" name="amount" class="form-control" id="amount">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    {% if payment %}
+        <div class = "text-center mx-auto mt-5">
+            <form action="/success" method="POST">
+                <script
+                    src="https://checkout.razorpay.com/v1/checkout.js"
+                    data-key="rzp_test_8WVJYezFus1ddM" 
+                    data-amount="{{payment.amount}}" 
+                    data-currency="INR"
+                    data-order_id="{{payment.id}}"
+                    data-buttontext="Pay with Razorpay"
+                    data-name="Coffee Corp"
+                    data-description="Test transaction"
+                    data-image="https://example.com/your_logo.jpg"
+                    data-prefill.name="Gaurav Kumar"
+                    data-prefill.email="gaurav.kumar@example.com"
+                    data-prefill.contact="8826064741"
+                    data-theme.color="#F37254">
+                </script>
+                <input type="hidden" custom="Hidden Element" name="hidden">
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}
